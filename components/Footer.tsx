@@ -52,6 +52,14 @@ export default function Footer() {
                   Meet the Team
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-brand-muted hover:text-white text-sm transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
 

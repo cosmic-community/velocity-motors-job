@@ -35,6 +35,12 @@ export default function Header() {
             >
               Team
             </Link>
+            <Link
+              href="/contact"
+              className="px-3 py-2 text-sm font-medium text-brand-muted hover:text-white transition-colors rounded-lg hover:bg-white/5"
+            >
+              Contact
+            </Link>
           </nav>
         </div>
       </div>
