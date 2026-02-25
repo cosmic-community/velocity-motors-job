@@ -48,6 +48,24 @@ export interface AboutPage {
   }
 }
 
+// Terms page types
+export interface TermsSection {
+  heading: string
+  body: string
+}
+
+export interface TermsPage {
+  id: string
+  title: string
+  slug: string
+  metadata: {
+    page_title: string
+    last_updated: string
+    intro: string
+    sections: TermsSection[]
+  }
+}
+
 // Fetch all cars
 export async function getCars(): Promise<Car[]> {
   try {
@@ -130,5 +148,22 @@ export async function getAboutPage(): Promise<AboutPage | null> {
       return null
     }
     throw new Error('Failed to fetch about page')
+  }
+}
+
+// Changed: Added function to fetch the Terms page singleton
+export async function getTermsPage(): Promise<TermsPage | null> {
+  try {
+    const response = await cosmic.objects
+      .findOne({ type: 'terms-page', slug: 'terms' })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1)
+
+    return response.object as TermsPage
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null
+    }
+    throw new Error('Failed to fetch terms page')
   }
 }

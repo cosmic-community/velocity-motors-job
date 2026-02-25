@@ -20,7 +20,7 @@ export default function Footer() {
             <p className="text-brand-muted text-sm leading-relaxed mb-5">
               Premium exotic sports cars. Performance services. Expert team.
             </p>
-            {/* Changed: Added social media links */}
+            {/* Social media links */}
             <div className="flex items-center gap-3">
               <a
                 href="https://instagram.com"
@@ -113,6 +113,15 @@ export default function Footer() {
                   className="text-brand-muted hover:text-white text-sm transition-colors"
                 >
                   Contact Us
+                </Link>
+              </li>
+              {/* Changed: Added Terms link */}
+              <li>
+                <Link
+                  href="/terms"
+                  className="text-brand-muted hover:text-white text-sm transition-colors"
+                >
+                  Terms & Conditions
                 </Link>
               </li>
             </ul>
