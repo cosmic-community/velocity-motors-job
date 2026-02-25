@@ -49,7 +49,9 @@ export default async function TermsPage() {
 
   // Use Cosmic content with fallbacks
   const pageTitle = termsPage?.metadata?.page_title || 'Terms & Conditions'
-  const lastUpdated = termsPage?.metadata?.last_updated || new Date().toISOString().split('T')[0]
+  // Changed: Added fallback for split()[0] since noUncheckedIndexedAccess is enabled
+  const todayFallback = new Date().toISOString().split('T')[0] ?? '2025-01-01'
+  const lastUpdated = termsPage?.metadata?.last_updated || todayFallback
   const intro = termsPage?.metadata?.intro || defaultIntro
 
   const sections: TermsSection[] =

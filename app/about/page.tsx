@@ -84,6 +84,26 @@ const valueIcons = [
   </svg>,
 ]
 
+// Changed: Helper to safely split heading text with period separator
+function splitHeadingByPeriod(heading: string): { before: string; after: string } | null {
+  const parts = heading.split('.')
+  const firstPart = parts[0]
+  if (!firstPart || parts.length < 2) return null
+  const afterPart = parts.slice(1).join('.').trim()
+  if (!afterPart) return null
+  return { before: firstPart, after: afterPart }
+}
+
+// Changed: Helper to safely split heading text by last word
+function splitHeadingByLastWord(heading: string): { before: string; lastWord: string } | null {
+  const words = heading.split(' ')
+  if (words.length < 2) return null
+  const lastWord = words[words.length - 1]
+  if (!lastWord) return null
+  const before = words.slice(0, -1).join(' ')
+  return { before, lastWord }
+}
+
 export default async function AboutPage() {
   const [team, services, aboutPage] = await Promise.all([
     getTeam(),
@@ -134,6 +154,10 @@ export default async function AboutPage() {
     .split('\n\n')
     .filter((p) => p.trim().length > 0)
 
+  // Changed: Use safe heading split helpers
+  const heroSplit = splitHeadingByPeriod(heroHeading)
+  const ctaSplit = splitHeadingByLastWord(ctaHeading)
+
   return (
     <div className="pt-24 sm:pt-28 pb-20">
       {/* Hero / Intro */}
@@ -143,11 +167,12 @@ export default async function AboutPage() {
             {heroTagline}
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6">
-            {heroHeading.includes('.') ? (
+            {/* Changed: Use safe split helper instead of direct array access */}
+            {heroSplit ? (
               <>
-                {heroHeading.split('.')[0]}.{' '}
+                {heroSplit.before}.{' '}
                 <span className="text-brand-red">
-                  {heroHeading.split('.').slice(1).join('.').trim()}
+                  {heroSplit.after}
                 </span>
               </>
             ) : (
@@ -393,11 +418,12 @@ export default async function AboutPage() {
       <section className="bg-brand-dark-surface py-20 sm:py-28">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6">
-            {ctaHeading.includes(' ') ? (
+            {/* Changed: Use safe split helper instead of direct array access */}
+            {ctaSplit ? (
               <>
-                {ctaHeading.split(' ').slice(0, -1).join(' ')}{' '}
+                {ctaSplit.before}{' '}
                 <span className="text-brand-red">
-                  {ctaHeading.split(' ').slice(-1)[0]}
+                  {ctaSplit.lastWord}
                 </span>
               </>
             ) : (
